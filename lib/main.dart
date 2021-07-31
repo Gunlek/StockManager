@@ -3,7 +3,7 @@ import 'package:stockmanager/Widgets/Navbar.dart';
 import 'package:stockmanager/theme/CustomColors.dart';
 import 'package:stockmanager/theme/CustomTheme.dart';
 
-import 'Widgets/ElementsList.dart';
+import 'Screens/ListingScreen.dart';
 
 void main() {
   runApp(StockManager());
@@ -15,19 +15,19 @@ class StockManager extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'StockManager',
-      home: MyHomePage(),
+      home: Home(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key}) : super(key: key);
+class Home extends StatefulWidget {
+  Home({Key? key}) : super(key: key);
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _HomeState createState() => _HomeState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,21 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
               padding: EdgeInsets.all(
                 CustomTheme.mainPadding,
               ),
-              child: Container(
-                constraints: BoxConstraints.expand(),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(bottom: 25),
-                      child: Text("DatabaseName"),
-                    ),
-                    ElementsList(),
-                  ],
-                ),
-              ),
+              child: ListingScreen(),
             ),
           )
         ]),
