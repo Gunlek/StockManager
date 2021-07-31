@@ -1,11 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:stockmanager/Widgets/DatabaseSelector.dart';
+import 'package:stockmanager/Widgets/DatabaseSelector/DatabaseSelector.dart';
 import 'package:stockmanager/Widgets/ProfilePicture/ProfilePicture.dart';
 import 'package:stockmanager/theme/CustomColors.dart';
 import 'package:stockmanager/theme/CustomTheme.dart';
 
-class Navbar extends StatelessWidget {
+class Navbar extends StatefulWidget {
+  @override
+  _NavbarState createState() => _NavbarState();
+}
+
+class _NavbarState extends State<Navbar> {
   @override
   Widget build(BuildContext context) {
     return Container(

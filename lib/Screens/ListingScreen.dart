@@ -17,7 +17,7 @@ class _ListingScreenState extends State<ListingScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.max,
         children: [
-          DatabaseName("DatabaseName"),
+          DatabaseName(),
           ElementsList(),
         ],
       ),
