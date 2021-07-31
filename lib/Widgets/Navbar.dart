@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:stockmanager/Widgets/DatabaseSelector.dart';
-import 'package:stockmanager/Widgets/ProfilePicture.dart';
+import 'package:stockmanager/Widgets/ProfilePicture/ProfilePicture.dart';
 import 'package:stockmanager/theme/CustomColors.dart';
 import 'package:stockmanager/theme/CustomTheme.dart';
 
