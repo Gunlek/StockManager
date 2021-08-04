@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:stockmanager/Widgets/Navbar.dart';
-import 'package:stockmanager/theme/CustomColors.dart';
-import 'package:stockmanager/theme/CustomTheme.dart';
+import 'package:stockmanager/States/DatabaseStateModel.dart';
+import 'package:stockmanager/States/RouterStateModel.dart';
 
-import 'Screens/ListingScreen.dart';
-import 'States/DatabaseStateModel.dart';
+import 'Widgets/StateRouter.dart';
+import 'Widgets/Wireframe.dart';
 
 void main() {
   runApp(StockManager());
@@ -16,7 +15,6 @@ class StockManager extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'StockManager',
       home: Home(),
     );
   }
@@ -32,23 +30,15 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => DatabaseStateModel(),
-      child: Scaffold(
-        backgroundColor: CustomColors.lightContrastLight,
-        body: Center(
-          child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-            Navbar(),
-            Flexible(
-              child: Padding(
-                padding: EdgeInsets.all(
-                  CustomTheme.mainPadding,
-                ),
-                child: ListingScreen(),
-              ),
-            )
-          ]),
-        ),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<DatabaseStateModel>(
+            create: (context) => DatabaseStateModel()),
+        ChangeNotifierProvider<RouterStateModel>(
+            create: (context) => RouterStateModel()),
+      ],
+      child: Wireframe(
+        child: StateRouter(),
       ),
     );
   }

@@ -1,6 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:stockmanager/States/RouterStateModel.dart';
 import 'package:stockmanager/Widgets/DatabaseSelector/DatabaseSelector.dart';
+import 'package:stockmanager/Widgets/Navbar/MoveBackIcon.dart';
+import 'package:stockmanager/Widgets/Navbar/SettingsIcon.dart';
 import 'package:stockmanager/Widgets/ProfilePicture/ProfilePicture.dart';
 import 'package:stockmanager/theme/CustomColors.dart';
 import 'package:stockmanager/theme/CustomTheme.dart';
@@ -37,10 +41,12 @@ class _NavbarState extends State<Navbar> {
                     left: CustomTheme.navbarPadding,
                     right: CustomTheme.navbarPadding,
                   ),
-                  child: Icon(
-                    Icons.settings,
-                    color: CustomColors.lightContrastLight,
-                    size: 40,
+                  child: Consumer<RouterStateModel>(
+                    builder: (context, router, Widget? child) {
+                      return router.current == "listing"
+                          ? SettingsIcon(router: router)
+                          : MoveBackIcon(router: router);
+                    },
                   ),
                 ),
               ],
