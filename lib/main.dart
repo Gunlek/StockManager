@@ -24,18 +24,27 @@ class Home extends StatefulWidget {
   Home({Key? key}) : super(key: key);
 
   @override
-  _HomeState createState() => _HomeState();
+  HomeState createState() => HomeState();
 }
 
-class _HomeState extends State<Home> {
+class HomeState extends State<Home> {
+  static DatabaseStateModel databaseState = DatabaseStateModel();
+  static RouterStateModel routerState = RouterStateModel();
+  static DatabaseListStateModel databaseListState = DatabaseListStateModel();
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<DatabaseStateModel>(
-            create: (context) => DatabaseStateModel()),
+          create: (context) => databaseState,
+        ),
         ChangeNotifierProvider<RouterStateModel>(
-            create: (context) => RouterStateModel()),
+          create: (context) => routerState,
+        ),
+        ChangeNotifierProvider<DatabaseListStateModel>(
+          create: (context) => databaseListState,
+        ),
       ],
       child: Wireframe(
         child: StateRouter(),

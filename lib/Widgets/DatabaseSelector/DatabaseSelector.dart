@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stockmanager/States/DatabaseStateModel.dart';
+import 'package:stockmanager/models/DatabaseInfo.dart';
 import 'package:stockmanager/theme/CustomColors.dart';
 import 'package:stockmanager/theme/CustomTheme.dart';
 
@@ -14,8 +15,8 @@ class DatabaseSelectorState extends State<DatabaseSelector> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<DatabaseStateModel>(
-      builder: (context, databaseState, child) {
+    return Consumer2<DatabaseStateModel, DatabaseListStateModel>(
+      builder: (context, databaseState, databaseList, child) {
         return Padding(
           padding: EdgeInsets.only(
             left: CustomTheme.navbarPadding,
@@ -42,16 +43,14 @@ class DatabaseSelectorState extends State<DatabaseSelector> {
                   Icons.arrow_drop_down,
                   size: 40,
                 ),
-                items: [
-                  DropdownMenuItem(
-                    child: Text("Local"),
-                    value: "local",
-                  ),
-                  DropdownMenuItem(
-                    child: Text("db_1"),
-                    value: "db_1",
-                  ),
-                ],
+                items: databaseList.databases
+                    .map(
+                      (DatabaseInfo db) => DropdownMenuItem(
+                        value: db.displayName,
+                        child: Text(db.displayName),
+                      ),
+                    )
+                    .toList(),
                 onChanged: (String? newValue) {
                   databaseState.setDatabase(newValue!);
                 },
