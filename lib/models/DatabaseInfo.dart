@@ -12,12 +12,12 @@ class DatabaseInfo {
       this.password,
       this.port});
 
-  static DatabaseInfo fromJSON(json) => DatabaseInfo(
-      displayName: json.displayName,
-      host: json.host,
-      user: json.user,
-      password: json.password,
-      port: json.port);
+  static DatabaseInfo fromJSON(Map<String, String?> json) => DatabaseInfo(
+      displayName: json['displayName']!,
+      host: json['host'],
+      user: json['user'],
+      password: json['password'],
+      port: json['port']);
 
   dynamic toJSON() {
     return {
