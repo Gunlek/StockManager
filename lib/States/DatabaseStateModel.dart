@@ -4,16 +4,17 @@ import 'package:stockmanager/Widgets/DatabaseEditor/DatabaseEditor.dart';
 import 'package:stockmanager/models/DatabaseInfo.dart';
 
 class DatabaseStateModel extends ChangeNotifier {
-  String database = "Local";
+  static DatabaseInfo localDatabase = DatabaseInfo(displayName: "Local");
+  DatabaseInfo database = localDatabase;
 
-  void setDatabase(String _database) {
+  void setDatabase(DatabaseInfo _database) {
     database = _database;
     notifyListeners();
   }
 }
 
 class DatabaseListStateModel extends ChangeNotifier {
-  List<DatabaseInfo> databases = [DatabaseInfo(displayName: "Local")];
+  List<DatabaseInfo> databases = [DatabaseStateModel.localDatabase];
   List<DatabaseInfo> distantDatabases = [];
 
   DatabaseListStateModel() {
@@ -37,7 +38,7 @@ class DatabaseListStateModel extends ChangeNotifier {
             password: databaseRecord.value['password'].toString(),
           );
         }).toList();
-        databases = distantDatabases + [DatabaseInfo(displayName: "Local")];
+        databases = distantDatabases + [DatabaseStateModel.localDatabase];
 
         notifyListeners();
       });

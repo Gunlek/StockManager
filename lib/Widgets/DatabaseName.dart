@@ -19,7 +19,7 @@ class _DatabaseNameState extends State<DatabaseName> {
             bottom: CustomTheme.databaseNamePadding,
           ),
           child: Text(
-            databaseState.database,
+            databaseState.database.displayName,
             style: TextStyle(
               fontSize: CustomTheme.databaseNameFontSize,
               fontFamily: "Roboto",

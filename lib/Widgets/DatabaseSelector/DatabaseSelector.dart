@@ -11,8 +11,6 @@ class DatabaseSelector extends StatefulWidget {
 }
 
 class DatabaseSelectorState extends State<DatabaseSelector> {
-  String selectedDatabase = "local";
-
   @override
   Widget build(BuildContext context) {
     return Consumer2<DatabaseStateModel, DatabaseListStateModel>(
@@ -33,7 +31,7 @@ class DatabaseSelectorState extends State<DatabaseSelector> {
             child: Padding(
               padding: EdgeInsets.only(left: 10, right: 10),
               child: DropdownButton(
-                value: databaseState.database,
+                value: databaseList.databases.indexOf(databaseState.database),
                 underline: SizedBox(),
                 iconEnabledColor: CustomColors.accentLight,
                 dropdownColor: CustomColors.darkContrastLight,
@@ -46,13 +44,15 @@ class DatabaseSelectorState extends State<DatabaseSelector> {
                 items: databaseList.databases
                     .map(
                       (DatabaseInfo db) => DropdownMenuItem(
-                        value: db.displayName,
+                        value: databaseList.databases.indexOf(db),
                         child: Text(db.displayName),
                       ),
                     )
                     .toList(),
-                onChanged: (String? newValue) {
-                  databaseState.setDatabase(newValue!);
+                onChanged: (databaseIndex) {
+                  databaseState.setDatabase(
+                    databaseList.databases[databaseIndex as int],
+                  );
                 },
               ),
             ),
