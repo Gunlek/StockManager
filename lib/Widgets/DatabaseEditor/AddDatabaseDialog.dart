@@ -98,7 +98,12 @@ class AddDatabaseDialog extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () => {
                       if (_formKey.currentState!.validate())
-                        {handleDatabaseCreation(HomeState.databaseListState)}
+                        {
+                          handleDatabaseCreation(
+                            HomeState.databaseListState,
+                            context,
+                          )
+                        }
                     },
                     child: Text("Ajouter la base de données"),
                   ),
@@ -111,7 +116,8 @@ class AddDatabaseDialog extends StatelessWidget {
     );
   }
 
-  void handleDatabaseCreation(DatabaseListStateModel databaseList) {
+  void handleDatabaseCreation(
+      DatabaseListStateModel databaseList, BuildContext context) {
     String displayName = displayNameController.value.text;
     String hostname = hostnameController.value.text;
     String port = portController.value.text;
@@ -125,5 +131,7 @@ class AddDatabaseDialog extends StatelessWidget {
       user: username,
       password: password,
     ));
+
+    Navigator.of(context).pop();
   }
 }
