@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:sembast/sembast.dart';
 import 'package:sembast/sembast_io.dart';
 import 'package:sembast_web/sembast_web.dart';
+import 'package:stockmanager/States/DatabaseStateModel.dart';
 import 'package:stockmanager/Widgets/DatabaseEditor/DatabaseListingEntry.dart';
+import 'package:stockmanager/models/DatabaseInfo.dart';
 
 class DatabaseEditor extends StatefulWidget {
   // Open local database to store settings
@@ -48,13 +51,10 @@ class _DatabaseEditorState extends State<DatabaseEditor> {
   Widget build(BuildContext context) {
     TextStyle style = TextStyle(fontWeight: FontWeight.bold);
 
-    return FutureBuilder(
-      future: databases,
-      builder: (context,
-          AsyncSnapshot<List<RecordSnapshot<int, Map<String, Object?>>>>
-              snapshot) {
-        if (snapshot.hasData) {
-          return Column(children: [
+    return Consumer<DatabaseListStateModel>(
+      builder: (context, databaseListState, child) {
+        return Column(
+          children: [
             Table(
               children: [
                 TableRow(
@@ -62,6 +62,7 @@ class _DatabaseEditorState extends State<DatabaseEditor> {
                     Text("Nom", style: style),
                     Text("Hôte:Port", style: style),
                     Text("Utilisateur", style: style),
+                    Text("Actions", style: style),
                   ],
                 ),
               ],
@@ -71,24 +72,15 @@ class _DatabaseEditorState extends State<DatabaseEditor> {
                 maxHeight: 150,
               ),
               child: ListView.builder(
-                itemCount: snapshot.data!.length,
+                itemCount: databaseListState.distantDatabases.length,
                 itemBuilder: (context, index) {
-                  List<RecordSnapshot<int, Map<String, Object?>>>
-                      syncDatabases = snapshot.data!;
                   return DatabaseListingEntry(
-                    syncDatabases[index].value['displayName'].toString(),
-                    syncDatabases[index].value['host'].toString(),
-                    syncDatabases[index].value['port'].toString(),
-                    syncDatabases[index].value['user'].toString(),
-                    syncDatabases[index].value['password'].toString(),
-                  );
+                      databaseListState.distantDatabases[index]);
                 },
               ),
             ),
-          ]);
-        } else {
-          return CircularProgressIndicator();
-        }
+          ],
+        );
       },
     );
   }
