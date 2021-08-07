@@ -14,6 +14,7 @@ class DatabaseStateModel extends ChangeNotifier {
 
 class DatabaseListStateModel extends ChangeNotifier {
   List<DatabaseInfo> databases = [DatabaseInfo(displayName: "Local")];
+  List<DatabaseInfo> distantDatabases = [];
 
   DatabaseListStateModel() {
     getDatabaseList();
@@ -27,7 +28,7 @@ class DatabaseListStateModel extends ChangeNotifier {
   void getDatabaseList() {
     DatabaseEditor.openLocalDatabase((database) {
       intMapStoreFactory.store("databases").find(database).then((databaseList) {
-        databases = databaseList.map((databaseRecord) {
+        distantDatabases = databaseList.map((databaseRecord) {
           return DatabaseInfo(
             displayName: databaseRecord.value['displayName'].toString(),
             host: databaseRecord.value['host'].toString(),
@@ -36,7 +37,7 @@ class DatabaseListStateModel extends ChangeNotifier {
             password: databaseRecord.value['password'].toString(),
           );
         }).toList();
-        databases.add(DatabaseInfo(displayName: "Local"));
+        databases = distantDatabases + [DatabaseInfo(displayName: "Local")];
 
         notifyListeners();
       });
@@ -45,16 +46,13 @@ class DatabaseListStateModel extends ChangeNotifier {
 
   void addDatabaseToList(DatabaseInfo database) {
     databases.insert(0, database);
+    distantDatabases.add(database);
 
     DatabaseEditor.openLocalDatabase(
       (settingsDatabase) async {
         StoreRef store = intMapStoreFactory.store("databases");
         await settingsDatabase.transaction(
           (transaction) async {
-            /* await store.delete(
-              transaction,
-              finder: Finder(filter: Filter.equals("58", "58")),
-            ); */
             await store.add(transaction, database.toJSON());
           },
         );
@@ -62,5 +60,33 @@ class DatabaseListStateModel extends ChangeNotifier {
     );
 
     notifyListeners();
+  }
+
+  void removeDatabaseFromList(DatabaseInfo database) {
+    DatabaseEditor.openLocalDatabase(
+      (settingsDatabase) async {
+        StoreRef store = intMapStoreFactory.store("databases");
+        await settingsDatabase.transaction(
+          (transaction) async {
+            await store.delete(
+              transaction,
+              finder: Finder(
+                filter: Filter.and(
+                  [
+                    Filter.equals("displayName", database.displayName),
+                    Filter.equals("port", database.port),
+                    Filter.equals("host", database.host),
+                    Filter.equals("user", database.user),
+                    Filter.equals("password", database.password),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+
+        getDatabaseList();
+      },
+    );
   }
 }

@@ -1,31 +1,37 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:stockmanager/main.dart';
+import 'package:stockmanager/models/DatabaseInfo.dart';
 
 class DatabaseListingEntry extends StatelessWidget {
-  final String displayName;
-  final String host;
-  final String port;
-  final String user;
-  final String password;
+  final DatabaseInfo database;
 
-  DatabaseListingEntry(
-    this.displayName,
-    this.host,
-    this.port,
-    this.user,
-    this.password,
-  );
+  DatabaseListingEntry(this.database);
 
   @override
   Widget build(BuildContext context) {
     return Table(
+      defaultVerticalAlignment: TableCellVerticalAlignment.middle,
       children: [
         TableRow(
           children: [
-            Text(displayName),
-            Text(host + ":" + port),
-            Text(user),
+            Text(database.displayName),
+            Text(database.host! + ":" + database.port!),
+            Text(database.user!),
+            Row(
+              children: [
+                IconButton(
+                  icon: Icon(Icons.clear),
+                  onPressed: () => HomeState.databaseListState
+                      .removeDatabaseFromList(database),
+                  splashRadius: 15.0,
+                  color: Colors.red,
+                  iconSize: 20,
+                ),
+              ],
+            ),
           ],
-        )
+        ),
       ],
     );
   }
