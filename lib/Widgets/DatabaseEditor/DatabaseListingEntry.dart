@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 
 class DatabaseListingEntry extends StatelessWidget {
-  String displayName;
-  String host;
-  String port;
-  String user;
-  String password;
+  final String displayName;
+  final String host;
+  final String port;
+  final String user;
+  final String password;
 
   DatabaseListingEntry(
     this.displayName,
