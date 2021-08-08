@@ -1,31 +1,13 @@
 class DatabaseInfo {
   String displayName;
-  String? host;
-  String? user;
-  String? password;
-  String? port;
+  String host;
 
-  DatabaseInfo(
-      {this.displayName = "local",
-      this.host,
-      this.user,
-      this.password,
-      this.port});
+  DatabaseInfo({this.displayName = "local", this.host = "local"});
 
-  static DatabaseInfo fromJSON(Map<String, String?> json) => DatabaseInfo(
-      displayName: json['displayName']!,
-      host: json['host'],
-      user: json['user'],
-      password: json['password'],
-      port: json['port']);
+  static DatabaseInfo fromJSON(Map<String, String?> json) =>
+      DatabaseInfo(displayName: json['displayName']!, host: json['host']!);
 
   dynamic toJSON() {
-    return {
-      'displayName': this.displayName,
-      'host': this.host,
-      'user': this.user,
-      'password': this.password,
-      'port': this.port
-    };
+    return {'displayName': this.displayName, 'host': this.host};
   }
 }
