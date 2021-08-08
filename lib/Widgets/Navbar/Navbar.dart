@@ -26,7 +26,19 @@ class _NavbarState extends State<Navbar> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                ProfilePicture(),
+                Padding(
+                  padding: EdgeInsets.only(
+                    left: 15,
+                  ),
+                ),
+                Text(
+                  "StockManager",
+                  style: TextStyle(
+                    fontSize: 30,
+                    color: CustomColors.lightContrastLight,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ],
             ),
             flex: 1,
