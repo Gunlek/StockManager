@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:stockmanager/Widgets/DatabaseName.dart';
-import 'package:stockmanager/Widgets/ElementsList.dart';
+import 'package:stockmanager/Widgets/ElementListing/ElementsList.dart';
 
 class ListingScreen extends StatefulWidget {
   @override
