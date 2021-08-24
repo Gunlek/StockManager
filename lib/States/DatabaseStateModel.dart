@@ -31,8 +31,12 @@ class DatabaseListStateModel extends ChangeNotifier {
       intMapStoreFactory.store("databases").find(database).then((databaseList) {
         distantDatabases = databaseList.map((databaseRecord) {
           return DatabaseInfo(
-              displayName: databaseRecord.value['displayName'].toString(),
-              host: databaseRecord.value['host'].toString());
+            displayName: databaseRecord.value['displayName'].toString(),
+            host: databaseRecord.value['host'].toString(),
+            port: databaseRecord.value['port'].toString(),
+            user: databaseRecord.value['user'].toString(),
+            password: databaseRecord.value['password'].toString(),
+          );
         }).toList();
         databases = distantDatabases + [DatabaseStateModel.localDatabase];
 
@@ -71,7 +75,10 @@ class DatabaseListStateModel extends ChangeNotifier {
                 filter: Filter.and(
                   [
                     Filter.equals("displayName", database.displayName),
+                    Filter.equals("port", database.port),
                     Filter.equals("host", database.host),
+                    Filter.equals("user", database.user),
+                    Filter.equals("password", database.password),
                   ],
                 ),
               ),
