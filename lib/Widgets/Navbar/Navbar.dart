@@ -5,7 +5,6 @@ import 'package:stockmanager/States/RouterStateModel.dart';
 import 'package:stockmanager/Widgets/DatabaseSelector/DatabaseSelector.dart';
 import 'package:stockmanager/Widgets/Navbar/MoveBackIcon.dart';
 import 'package:stockmanager/Widgets/Navbar/SettingsIcon.dart';
-import 'package:stockmanager/Widgets/ProfilePicture/ProfilePicture.dart';
 import 'package:stockmanager/theme/CustomColors.dart';
 import 'package:stockmanager/theme/CustomTheme.dart';
 

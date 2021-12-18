@@ -9,7 +9,6 @@ import 'package:sembast/sembast_io.dart';
 import 'package:sembast_web/sembast_web.dart';
 import 'package:stockmanager/States/DatabaseStateModel.dart';
 import 'package:stockmanager/Widgets/DatabaseEditor/DatabaseListingEntry.dart';
-import 'package:stockmanager/models/DatabaseInfo.dart';
 
 class DatabaseEditor extends StatefulWidget {
   // Open local database to store settings
