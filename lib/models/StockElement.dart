@@ -6,9 +6,11 @@ class StockElement {
   final int quantity;
   final double unitPrice;
   final String location;
+  final String createdAt;
+  final String updatedAt;
 
   StockElement(this.id, this.type, this.name, this.provider, this.quantity,
-      this.unitPrice, this.location);
+      this.unitPrice, this.location, this.createdAt, this.updatedAt);
 
   static StockElement fromJSON(json) {
     return StockElement(
@@ -19,6 +21,8 @@ class StockElement {
       json['quantity'],
       json['unitPrice'],
       json['location'],
+      json['createdAt'],
+      json['updatedAt'],
     );
   }
 }

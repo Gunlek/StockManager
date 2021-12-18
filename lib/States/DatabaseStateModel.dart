@@ -64,9 +64,12 @@ class DatabaseListStateModel extends ChangeNotifier {
 
   void removeDatabaseFromList(DatabaseInfo database) {
     List<Filter> filters = [Filter.equals("displayName", database.displayName)];
-    if(database.host != null) filters.add(Filter.equals("host", database.host));
-    if(database.user != null) filters.add(Filter.equals("user", database.user));
-    if(database.password != null) filters.add(Filter.equals("password", database.password));
+    if (database.host != null)
+      filters.add(Filter.equals("host", database.host));
+    if (database.user != null)
+      filters.add(Filter.equals("user", database.user));
+    if (database.password != null)
+      filters.add(Filter.equals("password", database.password));
 
     if (database.host != null) {
       filters.add(Filter.equals("host", database.host));
