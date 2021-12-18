@@ -33,7 +33,6 @@ class DatabaseListStateModel extends ChangeNotifier {
           return DatabaseInfo(
             displayName: databaseRecord.value['displayName'].toString(),
             host: databaseRecord.value['host'].toString(),
-            port: databaseRecord.value['port'].toString(),
             user: databaseRecord.value['user'].toString(),
             password: databaseRecord.value['password'].toString(),
           );
@@ -64,6 +63,17 @@ class DatabaseListStateModel extends ChangeNotifier {
   }
 
   void removeDatabaseFromList(DatabaseInfo database) {
+    List<Filter> filters = [Filter.equals("displayName", database.displayName)];
+    if(database.host != null) filters.add(Filter.equals("host", database.host));
+    if(database.user != null) filters.add(Filter.equals("user", database.user));
+    if(database.password != null) filters.add(Filter.equals("password", database.password));
+
+    if (database.host != null) {
+      filters.add(Filter.equals("host", database.host));
+    }
+    if (database.host != null) {
+      filters.add(Filter.equals("host", database.host));
+    }
     DatabaseEditor.openLocalDatabase(
       (settingsDatabase) async {
         StoreRef store = intMapStoreFactory.store("databases");
@@ -72,15 +82,7 @@ class DatabaseListStateModel extends ChangeNotifier {
             await store.delete(
               transaction,
               finder: Finder(
-                filter: Filter.and(
-                  [
-                    Filter.equals("displayName", database.displayName),
-                    Filter.equals("port", database.port),
-                    Filter.equals("host", database.host),
-                    Filter.equals("user", database.user),
-                    Filter.equals("password", database.password),
-                  ],
-                ),
+                filter: Filter.and(filters),
               ),
             );
           },

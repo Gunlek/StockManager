@@ -6,7 +6,6 @@ import 'package:stockmanager/models/DatabaseInfo.dart';
 class AddDatabaseDialog extends StatelessWidget {
   final TextEditingController displayNameController = TextEditingController();
   final TextEditingController hostnameController = TextEditingController();
-  final TextEditingController portController = TextEditingController();
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
@@ -56,16 +55,7 @@ class AddDatabaseDialog extends StatelessWidget {
                             ),
                             controller: hostnameController,
                           ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: 10),
-                          child: TextFormField(
-                            decoration: InputDecoration(
-                              labelText: "Port",
-                            ),
-                            controller: portController,
-                          ),
-                        ),
+                        )
                       ],
                     ),
                   ],
@@ -120,14 +110,12 @@ class AddDatabaseDialog extends StatelessWidget {
       DatabaseListStateModel databaseList, BuildContext context) {
     String displayName = displayNameController.value.text;
     String hostname = hostnameController.value.text;
-    String port = portController.value.text;
     String username = usernameController.value.text;
     String password = passwordController.value.text;
 
     databaseList.addDatabaseToList(DatabaseInfo(
       displayName: displayName,
       host: hostname,
-      port: port,
       user: username,
       password: password,
     ));

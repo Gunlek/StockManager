@@ -60,7 +60,7 @@ class _DatabaseEditorState extends State<DatabaseEditor> {
                 TableRow(
                   children: [
                     Text("Nom", style: style),
-                    Text("Hôte:Port", style: style),
+                    Text("Hôte", style: style),
                     Text("Utilisateur", style: style),
                     Text("Actions", style: style),
                   ],

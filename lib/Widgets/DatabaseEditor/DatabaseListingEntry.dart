@@ -16,7 +16,7 @@ class DatabaseListingEntry extends StatelessWidget {
         TableRow(
           children: [
             Text(database.displayName),
-            Text(database.host! + ":" + database.port!),
+            Text(database.host!),
             Text(database.user!),
             Row(
               children: [
