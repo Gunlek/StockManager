@@ -46,7 +46,7 @@ class DatabaseInfo {
     }
   }
 
-  Future<List<StockElement>> getStock() async {
+  Future<List<StockElement>> getStock({recursive = false}) async {
     this._connected = isStillConnected();
     if (this._connected) {
       Uri url = Uri.parse(this.host! + "/item/all");
@@ -55,23 +55,25 @@ class DatabaseInfo {
 
       List<StockElement> stockElements = [];
       for (var el in jsonDecode(response.body)) {
-        stockElements.add(
-          StockElement(
-            el['id'], 
-            el['type'], 
-            el['name'], 
-            el['provider'], 
+        stockElements.add(StockElement(
+            el['id'],
+            el['type'],
+            el['name'],
+            el['provider'],
             el['quantity'],
-            el['unitPrice'], 
-            el['location'], 
-            el['createdAt'], 
-            el['updatedAt']
-          )
-        );
+            el['unitPrice'],
+            el['location'],
+            el['createdAt'],
+            el['updatedAt']));
       }
       return stockElements;
     } else {
-      return [];
+      if (!recursive) {
+        await this.connect();
+        return this.getStock(recursive: true);
+      } else {
+        return [];
+      }
     }
   }
 

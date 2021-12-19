@@ -66,6 +66,10 @@ class ElementsListState extends State<ElementsList> {
                         child: Text("Emplacement de stockage",
                             style: headerTextStyle),
                       ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 5, bottom: 5),
+                        child: Text("Actions", style: headerTextStyle),
+                      ),
                     ],
                   ),
                 ],
@@ -78,20 +82,23 @@ class ElementsListState extends State<ElementsList> {
                       builder: (context,
                           AsyncSnapshot<List<StockElement>> snapshot) {
                         if (snapshot.hasData) {
+                          int index = 0;
                           return Table(
-                            children: snapshot.data!
-                                .map(
-                                  (element) => ElementEntry(
-                                    element.id,
-                                    element.type,
-                                    element.name,
-                                    element.provider,
-                                    element.quantity,
-                                    element.unitPrice,
-                                    element.location,
-                                  ),
-                                )
-                                .toList(),
+                            children: snapshot.data!.map(
+                              (element) {
+                                index++;
+                                return ElementEntry(
+                                  index - 1,
+                                  element.id,
+                                  element.type,
+                                  element.name,
+                                  element.provider,
+                                  element.quantity,
+                                  element.unitPrice,
+                                  element.location,
+                                );
+                              },
+                            ).toList(),
                           );
                         } else {
                           return CircularProgressIndicator();
@@ -99,13 +106,10 @@ class ElementsListState extends State<ElementsList> {
                       },
                     );
                   } else {
-                    // TODO: Connect to local database
-                    // TODO: Get all the results
-                    // TODO: Display them
-
                     return Table(
                       children: [
                         ElementEntry(
+                          0,
                           0,
                           "Electronique",
                           "Résistance",
@@ -127,10 +131,6 @@ class ElementsListState extends State<ElementsList> {
   }
 
   Future<List<StockElement>> getList(DatabaseInfo database) async {
-    Uri url = Uri.parse(database.host + "/stock");
-    return http.get(url).then((response) {
-      List json = jsonDecode(response.body);
-      return json.map((element) => StockElement.fromJSON(element)).toList();
-    });
+    return database.getStock();
   }
 }
