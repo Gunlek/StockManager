@@ -31,107 +31,107 @@ class ElementsListState extends State<ElementsList> {
             width: CustomTheme.mainBorderWidth,
           ),
         ),
-        child: Padding(
-          padding: EdgeInsets.all(10),
-          child: Column(
-            children: [
-              Table(
-                children: [
-                  TableRow(
-                    children: [
-                      Padding(
-                        padding: rowPaddings,
-                        child: Text("Type", style: headerTextStyle),
-                      ),
-                      Padding(
-                        padding: rowPaddings,
-                        child: Text("Nom", style: headerTextStyle),
-                      ),
-                      Padding(
-                        padding: rowPaddings,
-                        child: Text("Fabricant", style: headerTextStyle),
-                      ),
-                      Padding(
-                        padding: rowPaddings,
-                        child: Text("Quantité", style: headerTextStyle),
-                      ),
-                      Padding(
-                        padding: rowPaddings,
-                        child: Text("Prix unitaire", style: headerTextStyle),
-                      ),
-                      Padding(
-                        padding: rowPaddings,
-                        child: Text("Emplacement de stockage",
-                            style: headerTextStyle),
-                      ),
-                      Padding(
-                        padding: rowPaddings,
-                        child: Text("Actions", style: headerTextStyle),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              Consumer<DatabaseStateModel>(
-                builder: (context, databaseState, child) {
-                  if (databaseState.database.host != "local") {
-                    return FutureBuilder(
-                      future: getList(databaseState.database),
-                      builder: (context,
-                          AsyncSnapshot<List<StockElement>> snapshot) {
-                        if (snapshot.hasData) {
-                          int index = 0;
-                          return Table(
-                            children: snapshot.data!.map(
-                              (element) {
-                                index++;
-                                return ElementEntry(
-                                  index - 1,
-                                  StockElement(
-                                    id: element.id,
-                                    type: element.type,
-                                    name: element.name,
-                                    provider: element.provider,
-                                    quantity: element.quantity,
-                                    unitPrice: element.unitPrice,
-                                    location: element.location,
-                                  ),
-                                  databaseState.database,
-                                  databaseState,
-                                  context,
-                                );
-                              },
-                            ).toList(),
-                          );
-                        } else {
-                          return CircularProgressIndicator();
-                        }
-                      },
-                    );
-                  } else {
-                    return Table(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.all(10),
+            child: Column(
+              children: [
+                Table(
+                  children: [
+                    TableRow(
                       children: [
-                        ElementEntry(
-                          0,
-                          StockElement(
-                            id: 0,
-                            type: "Electronique",
-                            name: "Résistance",
-                            provider: "Ebay",
-                            quantity: 5,
-                            unitPrice: 0.10,
-                            location: "Les Angles",
-                          ),
-                          databaseState.database,
-                          databaseState,
-                          context,
+                        Padding(
+                          padding: rowPaddings,
+                          child: Text("Type", style: headerTextStyle),
+                        ),
+                        Padding(
+                          padding: rowPaddings,
+                          child: Text("Nom", style: headerTextStyle),
+                        ),
+                        Padding(
+                          padding: rowPaddings,
+                          child: Text("Fabricant", style: headerTextStyle),
+                        ),
+                        Padding(
+                          padding: rowPaddings,
+                          child: Text("Quantité", style: headerTextStyle),
+                        ),
+                        Padding(
+                          padding: rowPaddings,
+                          child: Text("Prix unitaire", style: headerTextStyle),
+                        ),
+                        Padding(
+                          padding: rowPaddings,
+                          child: Text("Emplacement de stockage", style: headerTextStyle),
+                        ),
+                        Padding(
+                          padding: rowPaddings,
+                          child: Text("Actions", style: headerTextStyle),
                         ),
                       ],
-                    );
-                  }
-                },
-              ),
-            ],
+                    ),
+                  ],
+                ),
+                Consumer<DatabaseStateModel>(
+                  builder: (context, databaseState, child) {
+                    if (databaseState.database.host != "local") {
+                      return FutureBuilder(
+                        future: getList(databaseState.database),
+                        builder: (context, AsyncSnapshot<List<StockElement>> snapshot) {
+                          if (snapshot.hasData) {
+                            int index = 0;
+                            return Table(
+                              children: snapshot.data!.map(
+                                (element) {
+                                  index++;
+                                  return ElementEntry(
+                                    index - 1,
+                                    StockElement(
+                                      id: element.id,
+                                      type: element.type,
+                                      name: element.name,
+                                      provider: element.provider,
+                                      quantity: element.quantity,
+                                      unitPrice: element.unitPrice,
+                                      location: element.location,
+                                    ),
+                                    databaseState.database,
+                                    databaseState,
+                                    context,
+                                  );
+                                },
+                              ).toList(),
+                            );
+                          } else {
+                            return CircularProgressIndicator();
+                          }
+                        },
+                      );
+                    } else {
+                      return Table(
+                        children: [
+                          ElementEntry(
+                            0,
+                            StockElement(
+                              id: 0,
+                              type: "Electronique",
+                              name: "Résistance",
+                              provider: "Ebay",
+                              quantity: 5,
+                              unitPrice: 0.10,
+                              location: "Les Angles",
+                            ),
+                            databaseState.database,
+                            databaseState,
+                            context,
+                          ),
+                        ],
+                      );
+                    }
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
