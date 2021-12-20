@@ -18,6 +18,8 @@ class ElementsListState extends State<ElementsList> {
     fontWeight: FontWeight.bold,
   );
 
+  EdgeInsets rowPaddings = EdgeInsets.only(top: 10, bottom: 10);
+
   @override
   Widget build(BuildContext context) {
     return Flexible(
@@ -38,32 +40,32 @@ class ElementsListState extends State<ElementsList> {
                   TableRow(
                     children: [
                       Padding(
-                        padding: EdgeInsets.only(top: 5, bottom: 5),
+                        padding: rowPaddings,
                         child: Text("Type", style: headerTextStyle),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(top: 5, bottom: 5),
+                        padding: rowPaddings,
                         child: Text("Nom", style: headerTextStyle),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(top: 5, bottom: 5),
+                        padding: rowPaddings,
                         child: Text("Fabricant", style: headerTextStyle),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(top: 5, bottom: 5),
+                        padding: rowPaddings,
                         child: Text("Quantité", style: headerTextStyle),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(top: 5, bottom: 5),
+                        padding: rowPaddings,
                         child: Text("Prix unitaire", style: headerTextStyle),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(top: 5, bottom: 5),
+                        padding: rowPaddings,
                         child: Text("Emplacement de stockage",
                             style: headerTextStyle),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(top: 5, bottom: 5),
+                        padding: rowPaddings,
                         child: Text("Actions", style: headerTextStyle),
                       ),
                     ],

@@ -15,7 +15,7 @@ class ElementEntry extends TableRow {
 
   final BuildContext context;
 
-  final double topAndBottomMargins = 10;
+  final double topAndBottomMargins = 0;
 
   final Color lightEvenColor = Color.fromARGB(255, 220, 220, 220);
   final Color lightOddColor = Color.fromARGB(255, 240, 240, 240);
@@ -38,47 +38,71 @@ class ElementEntry extends TableRow {
   @override
   List<Widget>? get children {
     return [
-      Padding(
-        padding: EdgeInsets.only(
-          top: topAndBottomMargins,
-          bottom: topAndBottomMargins,
+      TableCell(
+        verticalAlignment: TableCellVerticalAlignment.middle,
+        child: Padding(
+          padding: EdgeInsets.only(
+            left: 10,
+            top: topAndBottomMargins,
+            bottom: topAndBottomMargins,
+          ),
+          child: Text(this.item.type),
         ),
-        child: Text(this.item.type),
       ),
-      Padding(
-        padding: EdgeInsets.only(
-          top: topAndBottomMargins,
-          bottom: topAndBottomMargins,
+      TableCell(
+        verticalAlignment: TableCellVerticalAlignment.middle,
+        child: Padding(
+          padding: EdgeInsets.only(
+            left: 10,
+            top: topAndBottomMargins,
+            bottom: topAndBottomMargins,
+          ),
+          child: Text(this.item.name),
         ),
-        child: Text(this.item.name),
       ),
-      Padding(
-        padding: EdgeInsets.only(
-          top: topAndBottomMargins,
-          bottom: topAndBottomMargins,
+      TableCell(
+        verticalAlignment: TableCellVerticalAlignment.middle,
+        child: Padding(
+          padding: EdgeInsets.only(
+            left: 10,
+            top: topAndBottomMargins,
+            bottom: topAndBottomMargins,
+          ),
+          child: Text(this.item.provider),
         ),
-        child: Text(this.item.provider),
       ),
-      Padding(
-        padding: EdgeInsets.only(
-          top: topAndBottomMargins,
-          bottom: topAndBottomMargins,
+      TableCell(
+        verticalAlignment: TableCellVerticalAlignment.middle,
+        child: Padding(
+          padding: EdgeInsets.only(
+            left: 10,
+            top: topAndBottomMargins,
+            bottom: topAndBottomMargins,
+          ),
+          child: Text(this.item.quantity.toString()),
         ),
-        child: Text(this.item.quantity.toString()),
       ),
-      Padding(
-        padding: EdgeInsets.only(
-          top: topAndBottomMargins,
-          bottom: topAndBottomMargins,
+      TableCell(
+        verticalAlignment: TableCellVerticalAlignment.middle,
+        child: Padding(
+          padding: EdgeInsets.only(
+            left: 10,
+            top: topAndBottomMargins,
+            bottom: topAndBottomMargins,
+          ),
+          child: Text(this.item.unitPrice.toString()),
         ),
-        child: Text(this.item.unitPrice.toString()),
       ),
-      Padding(
-        padding: EdgeInsets.only(
-          top: topAndBottomMargins,
-          bottom: topAndBottomMargins,
+      TableCell(
+        verticalAlignment: TableCellVerticalAlignment.middle,
+        child: Padding(
+          padding: EdgeInsets.only(
+            left: 10,
+            top: topAndBottomMargins,
+            bottom: topAndBottomMargins,
+          ),
+          child: Text(this.item.location),
         ),
-        child: Text(this.item.location),
       ),
       Padding(
         padding: EdgeInsets.only(
