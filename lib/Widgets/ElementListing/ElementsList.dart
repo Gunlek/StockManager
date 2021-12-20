@@ -1,8 +1,5 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 import 'package:stockmanager/States/DatabaseStateModel.dart';
 import 'package:stockmanager/Widgets/ElementListing/ElementEntry.dart';
@@ -10,7 +7,6 @@ import 'package:stockmanager/models/DatabaseInfo.dart';
 import 'package:stockmanager/models/StockElement.dart';
 import 'package:stockmanager/theme/CustomColors.dart';
 import 'package:stockmanager/theme/CustomTheme.dart';
-import 'package:http/http.dart' as http;
 
 class ElementsList extends StatefulWidget {
   @override
@@ -89,13 +85,18 @@ class ElementsListState extends State<ElementsList> {
                                 index++;
                                 return ElementEntry(
                                   index - 1,
-                                  element.id,
-                                  element.type,
-                                  element.name,
-                                  element.provider,
-                                  element.quantity,
-                                  element.unitPrice,
-                                  element.location,
+                                  StockElement(
+                                    id: element.id,
+                                    type: element.type,
+                                    name: element.name,
+                                    provider: element.provider,
+                                    quantity: element.quantity,
+                                    unitPrice: element.unitPrice,
+                                    location: element.location,
+                                  ),
+                                  databaseState.database,
+                                  databaseState,
+                                  context,
                                 );
                               },
                             ).toList(),
@@ -110,13 +111,18 @@ class ElementsListState extends State<ElementsList> {
                       children: [
                         ElementEntry(
                           0,
-                          0,
-                          "Electronique",
-                          "Résistance",
-                          "Ebay",
-                          5,
-                          0.10,
-                          "Les Angles",
+                          StockElement(
+                            id: 0,
+                            type: "Electronique",
+                            name: "Résistance",
+                            provider: "Ebay",
+                            quantity: 5,
+                            unitPrice: 0.10,
+                            location: "Les Angles",
+                          ),
+                          databaseState.database,
+                          databaseState,
+                          context,
                         ),
                       ],
                     );

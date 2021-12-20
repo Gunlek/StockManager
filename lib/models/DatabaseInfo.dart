@@ -55,16 +55,7 @@ class DatabaseInfo {
 
       List<StockElement> stockElements = [];
       for (var el in jsonDecode(response.body)) {
-        stockElements.add(StockElement(
-            el['id'],
-            el['type'],
-            el['name'],
-            el['provider'],
-            el['quantity'],
-            el['unitPrice'],
-            el['location'],
-            el['createdAt'],
-            el['updatedAt']));
+        stockElements.add(StockElement.fromJSON(el));
       }
       return stockElements;
     } else {
@@ -77,13 +68,55 @@ class DatabaseInfo {
     }
   }
 
+  Future<void> updateItem(
+      {required StockElement item, recursive = false}) async {
+    this._connected = isStillConnected();
+
+    Map<String, String?> jsonItem = item.toJSON();
+
+    if (this._connected) {
+      Uri url = Uri.parse(this.host! + "/item/update/" + item.id.toString());
+      await http.put(
+        url,
+        headers: {"Authorization": "Bearer " + this._token!},
+        body: {
+          "type": jsonItem['type'],
+          "name": jsonItem['name'],
+          "provider": jsonItem['provider'],
+          "quantity": jsonItem['quantity'],
+          "unitPrice": jsonItem['unitPrice'],
+          "location": jsonItem['location'],
+        },
+      );
+    } else {
+      if (!recursive) {
+        await this.connect();
+        this.updateItem(item: item, recursive: true);
+      }
+    }
+  }
+
+  Future<void> deleteItem({required int id, recursive = false}) async {
+    this._connected = isStillConnected();
+    if (this._connected) {
+      Uri url = Uri.parse(this.host! + "/item/delete/" + id.toString());
+      await http
+          .delete(url, headers: {"Authorization": "Bearer " + this._token!});
+    } else {
+      if (!recursive) {
+        await this.connect();
+        this.deleteItem(id: id);
+      }
+    }
+  }
+
   static DatabaseInfo fromJSON(Map<String, String?> json) => DatabaseInfo(
       displayName: json['displayName']!,
       host: json['host'],
       user: json['user'],
       password: json['password']);
 
-  dynamic toJSON() {
+  Map<String, String?> toJSON() {
     return {
       'displayName': this.displayName,
       'host': this.host,

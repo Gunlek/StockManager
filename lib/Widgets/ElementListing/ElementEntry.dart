@@ -1,15 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:stockmanager/theme/CustomColors.dart';
+import 'package:stockmanager/States/DatabaseStateModel.dart';
+import 'package:stockmanager/models/DatabaseInfo.dart';
+import 'package:stockmanager/models/StockElement.dart';
+
+import 'ItemDialog.dart';
 
 class ElementEntry extends TableRow {
+  final StockElement item;
   final int index;
-  final String type;
-  final String name;
-  final String provider;
-  final int quantity;
-  final double unitPrice;
-  final String location;
+
+  final DatabaseInfo database;
+  final DatabaseStateModel databaseState;
+
+  final BuildContext context;
 
   final double topAndBottomMargins = 10;
 
@@ -18,12 +22,10 @@ class ElementEntry extends TableRow {
 
   ElementEntry(
     this.index,
-    this.type,
-    this.name,
-    this.provider,
-    this.quantity,
-    this.unitPrice,
-    this.location,
+    this.item,
+    this.database,
+    this.databaseState,
+    this.context,
   );
 
   @override
@@ -41,43 +43,79 @@ class ElementEntry extends TableRow {
           top: topAndBottomMargins,
           bottom: topAndBottomMargins,
         ),
-        child: Text(this.type),
+        child: Text(this.item.type),
       ),
       Padding(
         padding: EdgeInsets.only(
           top: topAndBottomMargins,
           bottom: topAndBottomMargins,
         ),
-        child: Text(this.name),
+        child: Text(this.item.name),
       ),
       Padding(
         padding: EdgeInsets.only(
           top: topAndBottomMargins,
           bottom: topAndBottomMargins,
         ),
-        child: Text(this.provider),
+        child: Text(this.item.provider),
       ),
       Padding(
         padding: EdgeInsets.only(
           top: topAndBottomMargins,
           bottom: topAndBottomMargins,
         ),
-        child: Text(this.quantity.toString()),
+        child: Text(this.item.quantity.toString()),
       ),
       Padding(
         padding: EdgeInsets.only(
           top: topAndBottomMargins,
           bottom: topAndBottomMargins,
         ),
-        child: Text(this.unitPrice.toString()),
+        child: Text(this.item.unitPrice.toString()),
       ),
       Padding(
         padding: EdgeInsets.only(
           top: topAndBottomMargins,
           bottom: topAndBottomMargins,
         ),
-        child: Text(this.location),
+        child: Text(this.item.location),
+      ),
+      Padding(
+        padding: EdgeInsets.only(
+          top: topAndBottomMargins,
+          bottom: topAndBottomMargins,
+        ),
+        child: Row(
+          children: [
+            IconButton(
+              icon: Icon(Icons.edit),
+              onPressed: () => showDialog(
+                context: context,
+                builder: (context) => ItemDialog(
+                    mode: "edition",
+                    database: this.database,
+                    item: this.item,
+                    context: context),
+              ).then((value) => this.databaseState.updatedDatabase()),
+              splashRadius: 15.0,
+              color: Colors.blue,
+              iconSize: 20,
+            ),
+            IconButton(
+              icon: Icon(Icons.clear),
+              onPressed: () => deleteItem(this.item.id),
+              splashRadius: 15.0,
+              color: Colors.red,
+              iconSize: 20,
+            ),
+          ],
+        ),
       ),
     ];
+  }
+
+  void deleteItem(int id) {
+    this.database.deleteItem(id: id);
+    this.databaseState.updatedDatabase();
   }
 }

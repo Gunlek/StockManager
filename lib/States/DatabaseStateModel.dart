@@ -11,6 +11,10 @@ class DatabaseStateModel extends ChangeNotifier {
     database = _database;
     notifyListeners();
   }
+
+  void updatedDatabase() {
+    notifyListeners();
+  }
 }
 
 class DatabaseListStateModel extends ChangeNotifier {
