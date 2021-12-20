@@ -1,13 +1,14 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stockmanager/States/DatabaseStateModel.dart';
 import 'package:stockmanager/Widgets/ElementListing/ElementEntry.dart';
-import 'package:stockmanager/models/DatabaseInfo.dart';
+import 'package:stockmanager/Widgets/ElementListing/ListingTableHeader.dart';
 import 'package:stockmanager/models/StockElement.dart';
 import 'package:stockmanager/theme/CustomColors.dart';
 import 'package:stockmanager/theme/CustomTheme.dart';
 
+// List elements from currently selected database
+// Current database is stored in databaseState used by
 class ElementsList extends StatefulWidget {
   @override
   State<ElementsList> createState() => ElementsListState();
@@ -17,8 +18,6 @@ class ElementsListState extends State<ElementsList> {
   final headerTextStyle = TextStyle(
     fontWeight: FontWeight.bold,
   );
-
-  EdgeInsets rowPaddings = EdgeInsets.only(top: 10, bottom: 10);
 
   @override
   Widget build(BuildContext context) {
@@ -36,47 +35,14 @@ class ElementsListState extends State<ElementsList> {
             padding: EdgeInsets.all(10),
             child: Column(
               children: [
-                Table(
-                  children: [
-                    TableRow(
-                      children: [
-                        Padding(
-                          padding: rowPaddings,
-                          child: Text("Type", style: headerTextStyle),
-                        ),
-                        Padding(
-                          padding: rowPaddings,
-                          child: Text("Nom", style: headerTextStyle),
-                        ),
-                        Padding(
-                          padding: rowPaddings,
-                          child: Text("Fabricant", style: headerTextStyle),
-                        ),
-                        Padding(
-                          padding: rowPaddings,
-                          child: Text("Quantité", style: headerTextStyle),
-                        ),
-                        Padding(
-                          padding: rowPaddings,
-                          child: Text("Prix unitaire", style: headerTextStyle),
-                        ),
-                        Padding(
-                          padding: rowPaddings,
-                          child: Text("Emplacement de stockage", style: headerTextStyle),
-                        ),
-                        Padding(
-                          padding: rowPaddings,
-                          child: Text("Actions", style: headerTextStyle),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+                ListingTableHeader(rowPaddings: EdgeInsets.only(top: 10, bottom: 10)),
                 Consumer<DatabaseStateModel>(
                   builder: (context, databaseState, child) {
+                    // TODO: Remove local database capability
                     if (databaseState.database.host != "local") {
+                      // If database is distant, not local one
                       return FutureBuilder(
-                        future: getList(databaseState.database),
+                        future: databaseState.database.getStock(),
                         builder: (context, AsyncSnapshot<List<StockElement>> snapshot) {
                           if (snapshot.hasData) {
                             int index = 0;
@@ -108,6 +74,7 @@ class ElementsListState extends State<ElementsList> {
                         },
                       );
                     } else {
+                      // Dummy data if database is local
                       return Table(
                         children: [
                           ElementEntry(
@@ -136,9 +103,5 @@ class ElementsListState extends State<ElementsList> {
         ),
       ),
     );
-  }
-
-  Future<List<StockElement>> getList(DatabaseInfo database) async {
-    return database.getStock();
   }
 }
