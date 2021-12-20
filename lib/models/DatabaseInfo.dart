@@ -1,9 +1,10 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
-
 import 'StockElement.dart';
 
+// This class handle all database management capabilities
+// A DatabaseInfo object contains database's credentials and hostname
+// And provides multiples methods to interact with StockManager server
 class DatabaseInfo {
   String displayName;
   String? host;
@@ -15,17 +16,13 @@ class DatabaseInfo {
   int? _tokenValidity;
   bool _connected = false;
 
-  DatabaseInfo(
-      {this.displayName = "local",
-      this.host = "local",
-      this.user,
-      this.password});
+  DatabaseInfo({this.displayName = "local", this.host = "local", this.user, this.password});
 
+  // Connect to distant StockManager server using REST API
   Future<void> connect() async {
     if (!this._connected) {
       Uri url = Uri.parse(this.host! + "/auth/login");
-      var response = await http
-          .post(url, body: {"username": this.user, "password": this.password});
+      var response = await http.post(url, body: {"username": this.user, "password": this.password});
 
       var jsonResponse = jsonDecode(response.body);
       this._token = jsonResponse['access_token'];
@@ -37,21 +34,23 @@ class DatabaseInfo {
     }
   }
 
+  // Compare latest verifiedAt plus token validity duration to current timestamp
+  // Ensure token is still valid or not
   bool isStillConnected() {
     if (_tokenVerifiedAt == null || _tokenValidity == null) {
       return false;
     } else {
-      return (_tokenVerifiedAt! + _tokenValidity!) * 1000 >
-          DateTime.now().microsecondsSinceEpoch;
+      return (_tokenVerifiedAt! + _tokenValidity!) * 1000 > DateTime.now().microsecondsSinceEpoch;
     }
   }
 
+  // Get all data from stock using REST API
+  // User must be logged in to REST API to do so
   Future<List<StockElement>> getStock({recursive = false}) async {
     this._connected = isStillConnected();
     if (this._connected) {
       Uri url = Uri.parse(this.host! + "/item/all");
-      var response = await http
-          .get(url, headers: {"Authorization": "Bearer " + this._token!});
+      var response = await http.get(url, headers: {"Authorization": "Bearer " + this._token!});
 
       List<StockElement> stockElements = [];
       for (var el in jsonDecode(response.body)) {
@@ -68,8 +67,9 @@ class DatabaseInfo {
     }
   }
 
-  Future<void> updateItem(
-      {required StockElement item, recursive = false}) async {
+  // Update item's data using REST API
+  // User must be logged in to REST API to do so
+  Future<void> updateItem({required StockElement item, recursive = false}) async {
     this._connected = isStillConnected();
 
     Map<String, String?> jsonItem = item.toJSON();
@@ -96,12 +96,13 @@ class DatabaseInfo {
     }
   }
 
+  // Delete item from REST API
+  // User must be logged in to REST API to do so
   Future<void> deleteItem({required int id, recursive = false}) async {
     this._connected = isStillConnected();
     if (this._connected) {
       Uri url = Uri.parse(this.host! + "/item/delete/" + id.toString());
-      await http
-          .delete(url, headers: {"Authorization": "Bearer " + this._token!});
+      await http.delete(url, headers: {"Authorization": "Bearer " + this._token!});
     } else {
       if (!recursive) {
         await this.connect();
@@ -110,8 +111,9 @@ class DatabaseInfo {
     }
   }
 
-  Future<void> createItem(
-      {required Map<String, String> json, recursive = false}) async {
+  // Create item on REST API
+  // User must be logged in to REST API to do so
+  Future<void> createItem({required Map<String, String> json, recursive = false}) async {
     this._connected = isStillConnected();
     if (this._connected) {
       Uri url = Uri.parse(this.host! + "/item/add/");
@@ -130,18 +132,21 @@ class DatabaseInfo {
     }
   }
 
+  // Create a new DatabaseInfo object from provided json
   static DatabaseInfo fromJSON(Map<String, String?> json) => DatabaseInfo(
-      displayName: json['displayName']!,
-      host: json['host'],
-      user: json['user'],
-      password: json['password']);
+        displayName: json['displayName']!,
+        host: json['host'],
+        user: json['user'],
+        password: json['password'],
+      );
 
+  // Serialize current DatabaseInfo object to JSON format
   Map<String, String?> toJSON() {
     return {
       'displayName': this.displayName,
       'host': this.host,
       'user': this.user,
-      'password': this.password
+      'password': this.password,
     };
   }
 }
