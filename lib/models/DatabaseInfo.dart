@@ -110,6 +110,26 @@ class DatabaseInfo {
     }
   }
 
+  Future<void> createItem(
+      {required Map<String, String> json, recursive = false}) async {
+    this._connected = isStillConnected();
+    if (this._connected) {
+      Uri url = Uri.parse(this.host! + "/item/add/");
+      await http.post(
+        url,
+        headers: {
+          "Authorization": "Bearer " + this._token!,
+        },
+        body: json,
+      );
+    } else {
+      if (!recursive) {
+        await this.connect();
+        this.createItem(json: json, recursive: true);
+      }
+    }
+  }
+
   static DatabaseInfo fromJSON(Map<String, String?> json) => DatabaseInfo(
       displayName: json['displayName']!,
       host: json['host'],

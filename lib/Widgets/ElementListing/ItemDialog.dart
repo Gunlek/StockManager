@@ -23,18 +23,24 @@ class ItemDialog extends StatelessWidget {
     this.item,
     required this.context,
   }) {
-    this.itemTypeController = TextEditingController(text: this.item!.type);
-    this.itemNameController = TextEditingController(text: this.item!.name);
-    this.itemProviderController =
-        TextEditingController(text: this.item!.provider);
+    this.itemTypeController = TextEditingController(
+      text: this.item == null ? "" : this.item!.type,
+    );
+    this.itemNameController = TextEditingController(
+      text: this.item == null ? "" : this.item!.name,
+    );
+    this.itemProviderController = TextEditingController(
+      text: this.item == null ? "" : this.item!.provider,
+    );
     this.itemQuantityController = TextEditingController(
-      text: this.item!.quantity.toString(),
+      text: this.item == null ? "" : this.item!.quantity.toString(),
     );
     this.itemUnitPriceController = TextEditingController(
-      text: this.item!.unitPrice.toString(),
+      text: this.item == null ? "" : this.item!.unitPrice.toString(),
     );
-    this.itemLocationController =
-        TextEditingController(text: this.item!.location);
+    this.itemLocationController = TextEditingController(
+      text: this.item == null ? "" : this.item!.location,
+    );
   }
 
   @override
@@ -52,7 +58,9 @@ class ItemDialog extends StatelessWidget {
               children: [
                 Center(
                   child: Text(
-                    "Edition d'un item",
+                    this.mode == "edition"
+                        ? "Edition d'un item"
+                        : "Création d'un item",
                     style: TextStyle(
                       fontSize: 25,
                     ),
@@ -154,6 +162,18 @@ class ItemDialog extends StatelessWidget {
   }
 
   void handleItemCreation() {
-    print("test");
+    if (this.database.host! != "local") {
+      this.database.createItem(
+        json: {
+          "type": itemTypeController.value.text,
+          "name": itemNameController.value.text,
+          "provider": itemProviderController.value.text,
+          "quantity": itemQuantityController.value.text,
+          "unitPrice": itemUnitPriceController.value.text,
+          "location": itemLocationController.value.text,
+        },
+      );
+      Navigator.pop(context, true);
+    }
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:stockmanager/Widgets/DatabaseName.dart';
 import 'package:stockmanager/Widgets/ElementListing/ElementsList.dart';
+import 'package:stockmanager/Widgets/ListingHeader/ListingHeader.dart';
 
 class ListingScreen extends StatefulWidget {
   @override
@@ -17,7 +17,7 @@ class _ListingScreenState extends State<ListingScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.max,
         children: [
-          DatabaseName(),
+          ListingHeader(),
           ElementsList(),
         ],
       ),
