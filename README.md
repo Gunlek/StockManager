@@ -13,7 +13,7 @@ From now, StockManager provides an easy to use interface to manage your own work
 ## Current TODO:
 
 - [ ] Remove "local database" capability and redirect to settings screen if no database added yet
-- [ ] Add filters
+- [x] Add filters
 - [ ] Add "search" field
 - [ ] Look at possibilities to make the listing more personnalized (selectable columns)
 - [ ] Think about tabbed nav between item's type => If you have ideas, I'm open !
