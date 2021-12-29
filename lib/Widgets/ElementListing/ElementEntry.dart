@@ -4,6 +4,7 @@ import 'package:stockmanager/States/DatabaseStateModel.dart';
 import 'package:stockmanager/models/DatabaseInfo.dart';
 import 'package:stockmanager/models/StockElement.dart';
 
+import 'ElementsList.dart';
 import 'ItemDialog.dart';
 
 class ElementEntry extends TableRow {
@@ -12,6 +13,8 @@ class ElementEntry extends TableRow {
 
   final DatabaseInfo database;
   final DatabaseStateModel databaseState;
+
+  final State<ElementsList> listState;
 
   final BuildContext context;
 
@@ -26,6 +29,7 @@ class ElementEntry extends TableRow {
     this.database,
     this.databaseState,
     this.context,
+    this.listState,
   );
 
   @override
@@ -115,11 +119,8 @@ class ElementEntry extends TableRow {
               icon: Icon(Icons.edit),
               onPressed: () => showDialog(
                 context: context,
-                builder: (context) => ItemDialog(
-                    mode: "edition",
-                    database: this.database,
-                    item: this.item,
-                    context: context),
+                builder: (context) =>
+                    ItemDialog(mode: "edition", database: this.database, item: this.item, context: context),
               ).then((value) => this.databaseState.updatedDatabase()),
               splashRadius: 15.0,
               color: Colors.blue,

@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:stockmanager/Widgets/ElementListing/Filter.dart';
+import 'package:stockmanager/Widgets/ElementListing/HeaderTitleWidget.dart';
+
+import 'ElementsList.dart';
 
 class ListingTableHeader extends StatelessWidget {
   final EdgeInsets rowPaddings;
-  final headerTextStyle = TextStyle(fontWeight: FontWeight.bold);
+  final onFilterSelection;
+  final Filter? filter;
 
-  ListingTableHeader({required this.rowPaddings});
+  ListingTableHeader({required this.rowPaddings, required this.onFilterSelection, this.filter});
 
   @override
   Widget build(BuildContext context) {
@@ -12,33 +17,52 @@ class ListingTableHeader extends StatelessWidget {
       children: [
         TableRow(
           children: [
-            Padding(
-              padding: rowPaddings,
-              child: Text("Type", style: headerTextStyle),
+            HeaderTitleWidget(
+              text: "Type",
+              onClick: this.onFilterSelection,
+              rowPaddings: rowPaddings,
+              filterType: FilterType.TYPE,
+              currentFilter: this.filter,
             ),
-            Padding(
-              padding: rowPaddings,
-              child: Text("Nom", style: headerTextStyle),
+            HeaderTitleWidget(
+              text: "Nom",
+              onClick: this.onFilterSelection,
+              rowPaddings: rowPaddings,
+              filterType: FilterType.NAME,
+              currentFilter: this.filter,
             ),
-            Padding(
-              padding: rowPaddings,
-              child: Text("Fabricant", style: headerTextStyle),
+            HeaderTitleWidget(
+              text: "Fabricant",
+              onClick: this.onFilterSelection,
+              rowPaddings: rowPaddings,
+              filterType: FilterType.PROVIDER,
+              currentFilter: this.filter,
             ),
-            Padding(
-              padding: rowPaddings,
-              child: Text("Quantité", style: headerTextStyle),
+            HeaderTitleWidget(
+              text: "Quantity",
+              onClick: this.onFilterSelection,
+              rowPaddings: rowPaddings,
+              filterType: FilterType.QUANTITY,
+              currentFilter: this.filter,
             ),
-            Padding(
-              padding: rowPaddings,
-              child: Text("Prix unitaire", style: headerTextStyle),
+            HeaderTitleWidget(
+              text: "Prix unitaire",
+              onClick: this.onFilterSelection,
+              rowPaddings: rowPaddings,
+              filterType: FilterType.UNIT_PRICE,
+              currentFilter: this.filter,
             ),
-            Padding(
-              padding: rowPaddings,
-              child: Text("Emplacement de stockage", style: headerTextStyle),
+            HeaderTitleWidget(
+              text: "Emplacement de stockage",
+              onClick: this.onFilterSelection,
+              rowPaddings: rowPaddings,
+              filterType: FilterType.LOCATION,
+              currentFilter: this.filter,
             ),
-            Padding(
-              padding: rowPaddings,
-              child: Text("Actions", style: headerTextStyle),
+            HeaderTitleWidget(
+              text: "Actions",
+              onClick: this.onFilterSelection,
+              rowPaddings: rowPaddings,
             ),
           ],
         ),

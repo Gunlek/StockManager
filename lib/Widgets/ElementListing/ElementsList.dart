@@ -7,6 +7,8 @@ import 'package:stockmanager/models/StockElement.dart';
 import 'package:stockmanager/theme/CustomColors.dart';
 import 'package:stockmanager/theme/CustomTheme.dart';
 
+import 'Filter.dart';
+
 // List elements from currently selected database
 // Current database is stored in databaseState used by
 class ElementsList extends StatefulWidget {
@@ -18,6 +20,14 @@ class ElementsListState extends State<ElementsList> {
   final headerTextStyle = TextStyle(
     fontWeight: FontWeight.bold,
   );
+
+  Filter filter = Filter.noFilter;
+
+  @override
+  void initState() {
+    super.initState();
+    this.filter = Filter.noFilter;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +45,13 @@ class ElementsListState extends State<ElementsList> {
             padding: EdgeInsets.all(10),
             child: Column(
               children: [
-                ListingTableHeader(rowPaddings: EdgeInsets.only(top: 10, bottom: 10)),
+                ListingTableHeader(
+                  rowPaddings: EdgeInsets.only(top: 10, bottom: 10),
+                  filter: this.filter,
+                  onFilterSelection: (type, order) => setState(() {
+                    this.filter = Filter(type, order);
+                  }),
+                ),
                 Consumer<DatabaseStateModel>(
                   builder: (context, databaseState, child) {
                     // TODO: Remove local database capability
@@ -46,8 +62,9 @@ class ElementsListState extends State<ElementsList> {
                         builder: (context, AsyncSnapshot<List<StockElement>> snapshot) {
                           if (snapshot.hasData) {
                             int index = 0;
+                            List<StockElement> sortedList = sortStock(snapshot.data!, this.filter);
                             return Table(
-                              children: snapshot.data!.map(
+                              children: sortedList.map(
                                 (element) {
                                   index++;
                                   return ElementEntry(
@@ -64,6 +81,7 @@ class ElementsListState extends State<ElementsList> {
                                     databaseState.database,
                                     databaseState,
                                     context,
+                                    this,
                                   );
                                 },
                               ).toList(),
@@ -91,6 +109,7 @@ class ElementsListState extends State<ElementsList> {
                             databaseState.database,
                             databaseState,
                             context,
+                            this,
                           ),
                         ],
                       );
@@ -103,5 +122,68 @@ class ElementsListState extends State<ElementsList> {
         ),
       ),
     );
+  }
+
+  List<StockElement> sortStock(List<StockElement> elmts, Filter filter) {
+    if (filter == Filter.noFilter) return elmts;
+
+    List<String> strKeyList = elmts
+        .map((e) {
+          switch (filter.type) {
+            case FilterType.TYPE:
+              return e.type;
+            case FilterType.NAME:
+              return e.name;
+            case FilterType.PROVIDER:
+              return e.provider;
+            case FilterType.QUANTITY:
+              return e.quantity.toString();
+            case FilterType.UNIT_PRICE:
+              return e.unitPrice.toString();
+            case FilterType.LOCATION:
+              return e.location;
+            default:
+              return "";
+          }
+        })
+        .toSet()
+        .toList();
+
+    strKeyList.sort();
+
+    if (filter.order == FilterOrder.DESC) strKeyList = strKeyList.reversed.toList();
+
+    List<StockElement> returnList = [];
+    for (int k = 0; k < strKeyList.length; k++) {
+      String key = strKeyList[k];
+
+      for (int i = 0; i < elmts.length; i++) {
+        switch (filter.type) {
+          case FilterType.TYPE:
+            if (elmts[i].type == key) returnList.add(elmts[i]);
+            break;
+          case FilterType.NAME:
+            if (elmts[i].name == key) returnList.add(elmts[i]);
+            break;
+          case FilterType.PROVIDER:
+            if (elmts[i].provider == key) returnList.add(elmts[i]);
+            break;
+          case FilterType.QUANTITY:
+            if (elmts[i].quantity.toString() == key) returnList.add(elmts[i]);
+            break;
+          case FilterType.UNIT_PRICE:
+            if (elmts[i].unitPrice.toString() == key) returnList.add(elmts[i]);
+            break;
+          case FilterType.LOCATION:
+            if (elmts[i].location == key) returnList.add(elmts[i]);
+            break;
+          default:
+            break;
+        }
+      }
+    }
+
+    print(returnList.length);
+    return returnList;
   }
 }
