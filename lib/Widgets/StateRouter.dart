@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:stockmanager/Screens/ListingScreen.dart';
 import 'package:stockmanager/Screens/SettingsScreen.dart';
 import 'package:stockmanager/States/RouterStateModel.dart';
+import 'package:stockmanager/Widgets/utils/ShiftRightFixer.dart';
 
 class StateRouter extends StatefulWidget {
   @override
@@ -15,10 +16,14 @@ class _StateRouterState extends State<StateRouter> {
     return Consumer<RouterStateModel>(
       builder: (context, router, child) {
         if (router.current == "settings") {
-          return SettingsScreen();
+          return ShiftRightFixer(
+            child: SettingsScreen(),
+          );
         }
 
-        return ListingScreen();
+        return ShiftRightFixer(
+          child: ListingScreen(),
+        );
       },
     );
   }
