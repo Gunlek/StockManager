@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stockmanager/States/DatabaseStateModel.dart';
+import 'package:stockmanager/States/FilterStateModel.dart';
 import 'package:stockmanager/Widgets/ElementListing/ElementEntry.dart';
 import 'package:stockmanager/Widgets/ElementListing/ListingTableHeader.dart';
 import 'package:stockmanager/models/StockElement.dart';
@@ -52,8 +53,8 @@ class ElementsListState extends State<ElementsList> {
                     this.filter = Filter(type, order);
                   }),
                 ),
-                Consumer<DatabaseStateModel>(
-                  builder: (context, databaseState, child) {
+                Consumer2<DatabaseStateModel, FilterStateModel>(
+                  builder: (context, databaseState, filter, child) {
                     // TODO: Remove local database capability
                     if (databaseState.database.host != "local") {
                       // If database is distant, not local one
@@ -62,7 +63,8 @@ class ElementsListState extends State<ElementsList> {
                         builder: (context, AsyncSnapshot<List<StockElement>> snapshot) {
                           if (snapshot.hasData) {
                             int index = 0;
-                            List<StockElement> sortedList = sortStock(snapshot.data!, this.filter);
+                            List<StockElement> filteredList = applyFilter(snapshot.data!, filter.filter, filter.searchTerm);
+                            List<StockElement> sortedList = sortStock(filteredList, this.filter);
                             return Table(
                               children: sortedList.map(
                                 (element) {
@@ -183,7 +185,27 @@ class ElementsListState extends State<ElementsList> {
       }
     }
 
-    print(returnList.length);
     return returnList;
+  }
+
+  List<StockElement> applyFilter(List<StockElement> elmts, FilterType filter, String searchTerm) {
+    if (searchTerm == "") return elmts;
+
+    switch (filter) {
+      case FilterType.NONE:
+        return elmts.map((StockElement elmt) => {}).toList() as List<StockElement>;
+      case FilterType.TYPE:
+        return elmts.where((StockElement elmt) => elmt.type.toLowerCase().contains(searchTerm.toLowerCase())).toList();
+      case FilterType.NAME:
+        return elmts.where((StockElement elmt) => elmt.name.toLowerCase().contains(searchTerm.toLowerCase())).toList();
+      case FilterType.PROVIDER:
+        return elmts.where((StockElement elmt) => elmt.provider.toLowerCase().contains(searchTerm.toLowerCase())).toList();
+      case FilterType.QUANTITY:
+        return elmts.where((StockElement elmt) => elmt.quantity.toString().toLowerCase().contains(searchTerm.toLowerCase())).toList();
+      case FilterType.UNIT_PRICE:
+        return elmts.where((StockElement elmt) => elmt.unitPrice.toString().toLowerCase().contains(searchTerm.toLowerCase())).toList();
+      case FilterType.LOCATION:
+        return elmts.where((StockElement elmt) => elmt.location.toLowerCase().contains(searchTerm.toLowerCase())).toList();
+    }
   }
 }

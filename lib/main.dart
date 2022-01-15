@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stockmanager/States/DatabaseStateModel.dart';
+import 'package:stockmanager/States/FilterStateModel.dart';
 import 'package:stockmanager/States/RouterStateModel.dart';
 
 import 'Widgets/StateRouter.dart';
@@ -31,6 +32,7 @@ class HomeState extends State<Home> {
   static DatabaseStateModel databaseState = DatabaseStateModel();
   static RouterStateModel routerState = RouterStateModel();
   static DatabaseListStateModel databaseListState = DatabaseListStateModel();
+  static FilterStateModel filterStateModel = FilterStateModel();
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +46,9 @@ class HomeState extends State<Home> {
         ),
         ChangeNotifierProvider<DatabaseListStateModel>(
           create: (context) => databaseListState,
+        ),
+        ChangeNotifierProvider<FilterStateModel>(
+          create: (context) => filterStateModel,
         ),
       ],
       child: Wireframe(

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stockmanager/States/DatabaseStateModel.dart';
@@ -28,11 +27,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Consumer<DatabaseListStateModel>(
-                        builder: (context, databaseList, child) {
+                    Consumer<DatabaseListStateModel>(builder: (context, databaseList, child) {
                       return OutlinedButton(
-                        onPressed: () => Navigator.of(context)
-                            .restorablePush(_dialogBuilder),
+                        onPressed: () => Navigator.of(context).restorablePush(_dialogBuilder),
                         child: Text("Ajouter une base de données"),
                       );
                     }),
@@ -52,9 +49,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  static Route<Object?> _dialogBuilder(
-      BuildContext context, Object? arguments) {
-    return DialogRoute<void>(
-        context: context, builder: (context) => AddDatabaseDialog());
+  static Route<Object?> _dialogBuilder(BuildContext context, Object? arguments) {
+    return DialogRoute<void>(context: context, builder: (context) => AddDatabaseDialog());
   }
 }
