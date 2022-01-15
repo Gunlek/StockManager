@@ -11,7 +11,7 @@ class SettingsIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: () {
-        this.router.setRoute("settings");
+        this.router.setRoute(LocalRoute.SETTINGS);
       },
       child: Icon(
         Icons.settings,

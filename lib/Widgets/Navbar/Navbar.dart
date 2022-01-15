@@ -54,7 +54,7 @@ class _NavbarState extends State<Navbar> {
                   ),
                   child: Consumer<RouterStateModel>(
                     builder: (context, router, Widget? child) {
-                      return router.current == "listing"
+                      return router.current == LocalRoute.LISTING
                           ? SettingsIcon(router: router)
                           : MoveBackIcon(router: router);
                     },

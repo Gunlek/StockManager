@@ -11,7 +11,7 @@ class MoveBackIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: () {
-        router.setRoute("listing");
+        router.setRoute(LocalRoute.LISTING);
       },
       child: Icon(
         Icons.arrow_back,

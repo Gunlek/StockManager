@@ -15,7 +15,7 @@ class _StateRouterState extends State<StateRouter> {
   Widget build(BuildContext context) {
     return Consumer<RouterStateModel>(
       builder: (context, router, child) {
-        if (router.current == "settings") {
+        if (router.current == LocalRoute.SETTINGS) {
           return ShiftRightFixer(
             child: SettingsScreen(),
           );
