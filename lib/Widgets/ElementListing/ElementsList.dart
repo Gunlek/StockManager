@@ -193,7 +193,7 @@ class ElementsListState extends State<ElementsList> {
 
     switch (filter) {
       case FilterType.NONE:
-        return elmts.map((StockElement elmt) => {}).toList() as List<StockElement>;
+        return elmts;
       case FilterType.TYPE:
         return elmts.where((StockElement elmt) => elmt.type.toLowerCase().contains(searchTerm.toLowerCase())).toList();
       case FilterType.NAME:

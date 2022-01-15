@@ -66,7 +66,7 @@ class _ListingHeaderState extends State<ListingHeader> {
                             value: filter.filter,
                             hint: Text("Colonne"),
                             items: [
-                              DropdownMenuItem(child: Text("Toutes"), value: FilterType.NONE),
+                              DropdownMenuItem(child: Text("Aucun"), value: FilterType.NONE),
                               DropdownMenuItem(child: Text("Type"), value: FilterType.TYPE),
                               DropdownMenuItem(child: Text("Nom"), value: FilterType.NAME),
                               DropdownMenuItem(child: Text("Fabricant"), value: FilterType.PROVIDER),
