@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:stockmanager/States/DatabaseStateModel.dart';
 import 'package:stockmanager/models/DatabaseInfo.dart';

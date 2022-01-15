@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:stockmanager/Widgets/ElementListing/Filter.dart';
 import 'package:stockmanager/Widgets/ElementListing/HeaderTitleWidget.dart';
 
-import 'ElementsList.dart';
-
 class ListingTableHeader extends StatelessWidget {
   final EdgeInsets rowPaddings;
   final onFilterSelection;
