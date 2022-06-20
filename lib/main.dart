@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stockmanager/States/DatabaseStateModel.dart';
 import 'package:stockmanager/States/FilterStateModel.dart';
 import 'package:stockmanager/States/RouterStateModel.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 
 import 'Widgets/StateRouter.dart';
 import 'Widgets/Wireframe.dart';
@@ -14,8 +14,12 @@ void main() {
 class StockManager extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return FluentApp(
       debugShowCheckedModeBanner: false,
+      title: "Gestionnaire de stock V1.0",
+      theme: ThemeData(
+        brightness: Brightness.light
+      ),
       home: Home(),
     );
   }

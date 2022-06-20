@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:stockmanager/States/DatabaseStateModel.dart';
 import 'package:stockmanager/models/DatabaseInfo.dart';
 import 'package:stockmanager/models/StockElement.dart';
@@ -115,22 +115,16 @@ class ElementEntry extends TableRow {
         child: Row(
           children: [
             IconButton(
-              icon: Icon(Icons.edit),
+              icon: Icon(FluentIcons.edit, color: Colors.blue, size: 20),
               onPressed: () => showDialog(
                 context: context,
                 builder: (context) =>
                     ItemDialog(mode: "edition", database: this.database, item: this.item, context: context),
               ).then((value) => this.databaseState.updatedDatabase()),
-              splashRadius: 15.0,
-              color: Colors.blue,
-              iconSize: 20,
             ),
             IconButton(
-              icon: Icon(Icons.clear),
+              icon: Icon(FluentIcons.clear, color: Colors.red, size: 20),
               onPressed: () => deleteItem(this.item.id),
-              splashRadius: 15.0,
-              color: Colors.red,
-              iconSize: 20,
             ),
           ],
         ),

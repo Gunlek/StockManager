@@ -1,9 +1,10 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:provider/provider.dart';
 import 'package:stockmanager/States/DatabaseStateModel.dart';
 import 'package:stockmanager/States/FilterStateModel.dart';
 import 'package:stockmanager/Widgets/ElementListing/Filter.dart';
 import 'package:stockmanager/Widgets/ElementListing/ItemDialog.dart';
+import 'package:stockmanager/i18n/FR/Filters.dart';
 
 import '../DatabaseName.dart';
 
@@ -26,10 +27,13 @@ class _ListingHeaderState extends State<ListingHeader> {
             children: [
               Flexible(
                 flex: 6,
-                child: Container(
-                  width: double.infinity,
-                  child: DatabaseName(
-                    databaseState: databaseState,
+                child: Padding(
+                  padding: EdgeInsets.only(left: 25),
+                  child: Container(
+                    width: double.infinity,
+                    child: DatabaseName(
+                      databaseState: databaseState,
+                    ),
                   ),
                 ),
               ),
@@ -48,9 +52,10 @@ class _ListingHeaderState extends State<ListingHeader> {
                           height: 50,
                           child: Padding(
                             padding: EdgeInsets.only(top: 10, bottom: 10),
-                            child: TextField(
+                            child: TextBox(
                               onChanged: (String value) => filter.setSearchTerm(value),
-                              decoration: InputDecoration(hintText: "Recherche..."),
+                              placeholder: "Recherche...",
+                              // decoration: InputDecoration(hintText: "Recherche..."),
                             ),
                           ),
                         ),
@@ -61,26 +66,24 @@ class _ListingHeaderState extends State<ListingHeader> {
                           right: 20,
                         ),
                         child: Container(
-                          height: 50,
-                          child: DropdownButton(
-                            value: filter.filter,
-                            hint: Text("Colonne"),
+                          width: 150,
+                          child: DropDownButton(
+                            title: Text(I18NFilters.mapFilters[filter.filter]!),
                             items: [
-                              DropdownMenuItem(child: Text("Aucun"), value: FilterType.NONE),
-                              DropdownMenuItem(child: Text("Type"), value: FilterType.TYPE),
-                              DropdownMenuItem(child: Text("Nom"), value: FilterType.NAME),
-                              DropdownMenuItem(child: Text("Fabricant"), value: FilterType.PROVIDER),
-                              DropdownMenuItem(child: Text("Quantité"), value: FilterType.QUANTITY),
-                              DropdownMenuItem(child: Text("Prix Unitaire"), value: FilterType.UNIT_PRICE),
-                              DropdownMenuItem(child: Text("Emplacement de stockage"), value: FilterType.LOCATION),
+                              MenuFlyoutItem(text: Text(I18NFilters.mapFilters[FilterType.NONE]!),        onPressed: () => filter.setFilter(FilterType.NONE)),
+                              MenuFlyoutItem(text: Text(I18NFilters.mapFilters[FilterType.TYPE]!),        onPressed: () => filter.setFilter(FilterType.TYPE)),
+                              MenuFlyoutItem(text: Text(I18NFilters.mapFilters[FilterType.NAME]!),        onPressed: () => filter.setFilter(FilterType.NAME)),
+                              MenuFlyoutItem(text: Text(I18NFilters.mapFilters[FilterType.PROVIDER]!),    onPressed: () => filter.setFilter(FilterType.PROVIDER)),
+                              MenuFlyoutItem(text: Text(I18NFilters.mapFilters[FilterType.QUANTITY]!),    onPressed: () => filter.setFilter(FilterType.QUANTITY)),
+                              MenuFlyoutItem(text: Text(I18NFilters.mapFilters[FilterType.UNIT_PRICE]!),  onPressed: () => filter.setFilter(FilterType.UNIT_PRICE)),
+                              MenuFlyoutItem(text: Text(I18NFilters.mapFilters[FilterType.LOCATION]!),    onPressed: () => filter.setFilter(FilterType.LOCATION)),
                             ],
-                            onChanged: (FilterType? column) => column != null ? filter.setFilter(column) : filter.setFilter(FilterType.NONE),
                           ),
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: 20),
-                        child: ElevatedButton(
+                        padding: EdgeInsets.only(left: 20, right: 25),
+                        child: Button(
                           onPressed: () => {
                             showDialog(
                               context: context,

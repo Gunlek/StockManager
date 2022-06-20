@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:provider/provider.dart';
 import 'package:stockmanager/States/DatabaseStateModel.dart';
 import 'package:stockmanager/States/FilterStateModel.dart';
@@ -35,12 +35,6 @@ class ElementsListState extends State<ElementsList> {
     return Flexible(
       child: Container(
         constraints: BoxConstraints.expand(),
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: CustomColors.secondaryLight,
-            width: CustomTheme.mainBorderWidth,
-          ),
-        ),
         child: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.all(10),
@@ -89,7 +83,7 @@ class ElementsListState extends State<ElementsList> {
                               ).toList(),
                             );
                           } else {
-                            return CircularProgressIndicator();
+                            return ProgressRing();
                           }
                         },
                       );
