@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:stockmanager/Screens/ListingScreen.dart';
 import 'package:stockmanager/Screens/SettingsScreen.dart';
 import 'package:stockmanager/models/MenuElement.dart';
-import 'package:stockmanager/theme/CustomColors.dart';
-import 'package:stockmanager/theme/CustomTheme.dart';
 
-import 'Navbar/Navbar.dart';
+import '../Screens/HomeScreen.dart';
 
 class Wireframe extends StatefulWidget {
   final Widget child;
@@ -49,9 +47,7 @@ class _WireframeState extends State<Wireframe> {
       content: NavigationBody(
         index: _currentIndex,
         children: [
-          const ScaffoldPage(
-            content: Text("Home")
-          ),
+          HomeScreen(),
           ListingScreen(),
           const ScaffoldPage(
               content: Text("Groups")
@@ -60,24 +56,5 @@ class _WireframeState extends State<Wireframe> {
         ]
       )
     );
-    /*return Scaffold(
-      backgroundColor: CustomColors.lightContrastLight,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Navbar(),
-            Flexible(
-              child: Padding(
-                padding: EdgeInsets.all(
-                  CustomTheme.mainPadding,
-                ),
-                child: child,
-              ),
-            )
-          ],
-        ),
-      ),
-    );*/
   }
 }
