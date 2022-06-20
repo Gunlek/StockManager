@@ -1,6 +1,7 @@
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:stockmanager/Screens/ListingScreen.dart';
+import 'package:stockmanager/Screens/SettingsScreen.dart';
 import 'package:stockmanager/models/MenuElement.dart';
 import 'package:stockmanager/theme/CustomColors.dart';
 import 'package:stockmanager/theme/CustomTheme.dart';
@@ -55,9 +56,7 @@ class _WireframeState extends State<Wireframe> {
           const ScaffoldPage(
               content: Text("Groups")
           ),
-          const ScaffoldPage(
-              content: Text("Settings")
-          )
+          SettingsScreen()
         ]
       )
     );

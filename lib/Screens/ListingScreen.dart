@@ -21,17 +21,5 @@ class _ListingScreenState extends State<ListingScreen> {
             ],
           ),
     );
-    // return Container(
-    //   constraints: BoxConstraints.expand(),
-    //   child: Column(
-    //     mainAxisAlignment: MainAxisAlignment.start,
-    //     crossAxisAlignment: CrossAxisAlignment.start,
-    //     mainAxisSize: MainAxisSize.max,
-    //     children: [
-    //       ListingHeader(),
-    //       ElementsList(),
-    //     ],
-    //   ),
-    // );
   }
 }
